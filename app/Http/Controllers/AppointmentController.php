@@ -35,8 +35,8 @@ class AppointmentController extends Controller
         $appointment = Appointment::create($validated);
 
         return redirect()
-            ->route('appointments.show', $appointment)
-            ->with('status', 'Appointment created successfully.');
+            ->route('appointments.index')
+            ->with('success', 'Appointment created successfully.');
     }
 
     public function show(Appointment $appointment): View
@@ -58,8 +58,8 @@ class AppointmentController extends Controller
         $appointment->update($request->validate($this->rules()));
 
         return redirect()
-            ->route('appointments.show', $appointment)
-            ->with('status', 'Appointment updated successfully.');
+            ->route('appointments.index')
+            ->with('success', 'Appointment updated successfully.');
     }
 
     public function destroy(Appointment $appointment): RedirectResponse
@@ -68,7 +68,7 @@ class AppointmentController extends Controller
 
         return redirect()
             ->route('appointments.index')
-            ->with('status', 'Appointment deleted successfully.');
+            ->with('success', 'Appointment deleted successfully.');
     }
 
     /**

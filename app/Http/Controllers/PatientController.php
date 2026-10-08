@@ -39,8 +39,8 @@ class PatientController extends Controller
         $patient = Patient::create($validated);
 
         return redirect()
-            ->route('patients.show', $patient)
-            ->with('status', 'Patient created successfully.');
+            ->route('patients.index')
+            ->with('success', 'Patient created successfully.');
     }
 
     public function show(Patient $patient): View
@@ -77,8 +77,8 @@ class PatientController extends Controller
         $patient->update($validated);
 
         return redirect()
-            ->route('patients.show', $patient)
-            ->with('status', 'Patient updated successfully.');
+            ->route('patients.index')
+            ->with('success', 'Patient updated successfully.');
     }
 
     public function destroy(Patient $patient): RedirectResponse
@@ -87,6 +87,6 @@ class PatientController extends Controller
 
         return redirect()
             ->route('patients.index')
-            ->with('status', 'Patient and associated appointments deleted successfully.');
+            ->with('success', 'Patient and associated appointments deleted successfully.');
     }
 }

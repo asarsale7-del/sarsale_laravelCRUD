@@ -11,6 +11,15 @@
         </div>
     </div>
     <section class="panel form-panel">
+        @if ($errors->any())
+            <div class="alert" role="alert">
+                <ul style="margin: 0; padding-left: 20px">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form method="POST" action="{{ route('appointments.update', $appointment) }}">
             @csrf
             @method('PUT')

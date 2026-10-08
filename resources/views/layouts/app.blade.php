@@ -106,8 +106,8 @@
         </div>
     </header>
     <main class="main">
-        @if (session('status'))
-            <div class="alert" role="status">{{ session('status') }}</div>
+        @if (session('success'))
+            <div class="alert" role="status">{{ session('success') }}</div>
         @endif
         @yield('content')
     </main>

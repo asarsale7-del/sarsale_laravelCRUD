@@ -14,6 +14,15 @@
         @if ($patients->isEmpty())
             <div class="alert">There are no patients yet. <a href="{{ route('patients.create') }}"><strong>Add a patient</strong></a> before scheduling.</div>
         @endif
+        @if ($errors->any())
+            <div class="alert" role="alert">
+                <ul style="margin: 0; padding-left: 20px">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form method="POST" action="{{ route('appointments.store') }}">
             @csrf
             @include('appointments._form')

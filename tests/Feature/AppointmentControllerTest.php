@@ -28,8 +28,8 @@ class AppointmentControllerTest extends TestCase
 
         $appointment = Appointment::query()->firstOrFail();
 
-        $response->assertRedirect(route('appointments.show', $appointment))
-            ->assertSessionHas('status', 'Appointment created successfully.');
+        $response->assertRedirect(route('appointments.index'))
+            ->assertSessionHas('success', 'Appointment created successfully.');
         $this->assertDatabaseHas('appointments', [
             'id' => $appointment->id,
             'patient_id' => $patient->id,
@@ -97,8 +97,8 @@ class AppointmentControllerTest extends TestCase
             'status' => 'completed',
         ]);
 
-        $response->assertRedirect(route('appointments.show', $appointment))
-            ->assertSessionHas('status', 'Appointment updated successfully.');
+        $response->assertRedirect(route('appointments.index'))
+            ->assertSessionHas('success', 'Appointment updated successfully.');
         $this->assertDatabaseHas('appointments', [
             'id' => $appointment->id,
             'appointment_date' => '2026-12-01',
@@ -107,7 +107,8 @@ class AppointmentControllerTest extends TestCase
         ]);
 
         $this->delete(route('appointments.destroy', $appointment))
-            ->assertRedirect(route('appointments.index'));
+            ->assertRedirect(route('appointments.index'))
+            ->assertSessionHas('success', 'Appointment deleted successfully.');
         $this->assertDatabaseMissing('appointments', ['id' => $appointment->id]);
     }
 

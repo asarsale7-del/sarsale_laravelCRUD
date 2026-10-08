@@ -23,8 +23,8 @@ class PatientControllerTest extends TestCase
 
         $patient = Patient::query()->where('email', 'ada@example.com')->firstOrFail();
 
-        $response->assertRedirect(route('patients.show', $patient))
-            ->assertSessionHas('status', 'Patient created successfully.');
+        $response->assertRedirect(route('patients.index'))
+            ->assertSessionHas('success', 'Patient created successfully.');
         $this->assertDatabaseHas('patients', [
             'id' => $patient->id,
             'first_name' => 'Ada',
@@ -100,8 +100,8 @@ class PatientControllerTest extends TestCase
             'address' => 'New address',
         ]);
 
-        $response->assertRedirect(route('patients.show', $patient))
-            ->assertSessionHas('status', 'Patient updated successfully.');
+        $response->assertRedirect(route('patients.index'))
+            ->assertSessionHas('success', 'Patient updated successfully.');
         $this->assertDatabaseHas('patients', [
             'id' => $patient->id,
             'first_name' => 'Augusta',
@@ -109,7 +109,8 @@ class PatientControllerTest extends TestCase
         ]);
 
         $this->delete(route('patients.destroy', $patient))
-            ->assertRedirect(route('patients.index'));
+            ->assertRedirect(route('patients.index'))
+            ->assertSessionHas('success', 'Patient and associated appointments deleted successfully.');
 
         $this->assertDatabaseMissing('patients', ['id' => $patient->id]);
         $this->assertDatabaseMissing('appointments', ['id' => $appointment->id]);
