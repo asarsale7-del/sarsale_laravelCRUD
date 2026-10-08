@@ -3,64 +3,43 @@
 @section('title', 'Patients')
 
 @section('content')
-    <div class="page-heading">
-        <div>
-            <p class="eyebrow">Directory</p>
-            <h1>Patients</h1>
-            <p class="subtitle">Manage patient details and visit history.</p>
-        </div>
-        <a class="button" href="{{ route('patients.create') }}">+ Add patient</a>
-    </div>
-
-    <section class="panel">
-        <div class="panel-heading">
-            <h2>Patient directory</h2>
-            <span class="muted">{{ $patients->total() }} total</span>
-        </div>
+    <h2>List of Patients</h2>
+    <a class="btn btn-primary mb-3" href="{{ route('patients.create') }}">Add Patient</a>
         @if ($patients->isEmpty())
-            <div class="empty">
-                <h2>No patients yet</h2>
-                <p>Add your first patient to start managing appointments.</p>
-                <a class="button" href="{{ route('patients.create') }}">Add patient</a>
+            <div class="alert alert-info">
+                No patients found.
             </div>
         @else
-            <div class="table-wrap">
-                <table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
                     <thead>
-                    <tr>
-                        <th>Patient</th>
-                        <th>Contact</th>
-                        <th>Appointments</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach ($patients as $patient)
                         <tr>
-                            <td class="primary-cell">
-                                <a href="{{ route('patients.show', $patient) }}">{{ $patient->first_name }} {{ $patient->last_name }}</a>
-                            </td>
-                            <td>{{ $patient->email ?: $patient->phone ?: '—' }}</td>
-                            <td>{{ $patient->appointments_count }}</td>
+                            <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
+                            <td>{{ $patient->email ?: '—' }}</td>
+                            <td>{{ $patient->phone ?: '—' }}</td>
+                            <td>{{ $patient->address ?: '—' }}</td>
                             <td>
-                                <div class="actions">
-                                    <a class="button button-secondary button-small" href="{{ route('patients.show', $patient) }}">View</a>
-                                    <a class="button button-secondary button-small" href="{{ route('patients.edit', $patient) }}">Edit</a>
-                                    <form method="POST" action="{{ route('patients.destroy', $patient) }}" onsubmit="return confirm('Delete this patient and their appointments?')">
+                                <a class="btn btn-warning btn-sm" href="{{ route('patients.edit', $patient) }}">Edit</a>
+                                <form action="{{ route('patients.destroy', $patient) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this patient?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="button button-danger button-small" type="submit">Delete</button>
-                                    </form>
-                                </div>
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-            @if ($patients->hasPages())
-                <div class="pagination">{{ $patients->links() }}</div>
-            @endif
         @endif
-    </section>
 @endsection

@@ -17,7 +17,7 @@ class AppointmentController extends Controller
             ->with('patient')
             ->orderBy('appointment_date')
             ->orderBy('appointment_time')
-            ->paginate(10);
+            ->get();
 
         return view('appointments.index', compact('appointments'));
     }
@@ -32,7 +32,7 @@ class AppointmentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate($this->rules());
-        $appointment = Appointment::create($validated);
+        Appointment::create($validated);
 
         return redirect()
             ->route('appointments.index')

@@ -13,10 +13,9 @@ class PatientController extends Controller
     public function index(): View
     {
         $patients = Patient::query()
-            ->withCount('appointments')
             ->orderBy('last_name')
             ->orderBy('first_name')
-            ->paginate(10);
+            ->get();
 
         return view('patients.index', compact('patients'));
     }
@@ -36,7 +35,7 @@ class PatientController extends Controller
             'address' => ['nullable', 'string', 'max:5000'],
         ]);
 
-        $patient = Patient::create($validated);
+        Patient::create($validated);
 
         return redirect()
             ->route('patients.index')

@@ -32,7 +32,10 @@ class PatientControllerTest extends TestCase
         ]);
         $this->get(route('patients.index'))
             ->assertOk()
-            ->assertSee('Ada Lovelace');
+            ->assertSee('Ada Lovelace')
+            ->assertSee('class="table table-bordered table-striped align-middle"', false)
+            ->assertSee('btn-warning', false)
+            ->assertSee('btn-danger', false);
     }
 
     public function test_patient_form_shows_validation_errors_for_missing_required_names(): void
@@ -125,15 +128,15 @@ class PatientControllerTest extends TestCase
 
         $this->get(route('patients.create'))
             ->assertOk()
-            ->assertSee('Add patient');
+            ->assertSee('Add Patient');
         $this->get(route('patients.edit', $patient))
             ->assertOk()
             ->assertSee('Katherine')
-            ->assertSee('Save changes');
+            ->assertSee('Update Patient');
         $this->get(route('patients.show', $patient))
             ->assertOk()
             ->assertSee('Katherine Johnson')
-            ->assertSee('Contact information');
+            ->assertSee('Patient Details');
     }
 
     public function test_patient_names_are_escaped_in_the_directory(): void

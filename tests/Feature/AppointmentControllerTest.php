@@ -39,7 +39,10 @@ class AppointmentControllerTest extends TestCase
         $this->get(route('appointments.index'))
             ->assertOk()
             ->assertSee('Grace Hopper')
-            ->assertSee('Annual check-up');
+            ->assertSee('Annual check-up')
+            ->assertSee('List of Appointments')
+            ->assertSee('btn-warning', false)
+            ->assertSee('btn-danger', false);
         $this->get(route('appointments.show', $appointment))
             ->assertOk()
             ->assertSee('Grace Hopper')
@@ -129,14 +132,14 @@ class AppointmentControllerTest extends TestCase
 
         $this->get(route('appointments.create'))
             ->assertOk()
-            ->assertSee('New appointment');
+            ->assertSee('Add Appointment');
         $this->get(route('appointments.edit', $appointment))
             ->assertOk()
-            ->assertSee('Edit appointment')
-            ->assertSee('Katherine Johnson');
+            ->assertSee('Edit Appointment')
+            ->assertSee('Update Appointment');
         $this->get(route('appointments.show', $appointment))
             ->assertOk()
-            ->assertSee('Visit information')
+            ->assertSee('Appointment Details')
             ->assertSee('Katherine Johnson');
     }
 }
